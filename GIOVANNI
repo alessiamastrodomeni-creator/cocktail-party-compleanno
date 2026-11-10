@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cocktail Party</title>
+  <style>
+    :root{
+      --bg-stripe-1: #efc66a;
+      --bg-stripe-2: #edb857;
+      --card-bg: #f2eae1;
+      --ink: #351f3c;
+      --line: #2d1d2b;
+      --accent: #d4433a;
+      --badge: #ef6e41;
+      --button: #d74e42;
+      --button-dark: #a9372d;
+      --pill: #efefee;
+      --calendar: #f2fbff;
+      --brown: #643f2d;
+      --panel: #f8f3ee;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        repeating-linear-gradient(
+          135deg,
+          var(--bg-stripe-1) 0 18px,
+          var(--bg-stripe-2) 18px 36px
+        );
+      color: var(--ink);
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+    }
+
+    .container {
+      width: min(92vw, 560px);
+      background: var(--card-bg);
+      border: 4px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+      padding: 22px 22px 18px;
+      position: relative;
+    }
+
+    .burger-wrap {
+      position: relative;
+      width: 280px;
+      height: 170px;
+      margin: 0 auto 8px;
+    }
+
+    .burger {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      width: 220px;
+      height: 140px;
+      border: 4px solid var(--line);
+      border-radius: 50% 50% 42% 42% / 46% 46% 42% 42%;
+      background: #f2c476;
+      box-shadow: inset 0 -8px 0 rgba(0,0,0,0.06);
+    }
+
+    .burger::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 18px;
+      height: 30px;
+      background: #f9db8c;
+      border: 4px solid var(--line);
+      border-radius: 30px 30px 20px 20px;
+      z-index: 2;
+    }
+
+    .burger::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 22px;
+      height: 26px;
+      background: #6d4a36;
+      border: 4px solid var(--line);
+      border-radius: 20px 20px 28px 28px;
+      z-index: 3;
+    }
+
+    .bread-top {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10px;
+      width: 230px;
+      height: 62px;
+      border: 4px solid var(--line);
+      background: #f5d082;
+      border-radius: 54% 54% 48% 48%;
+      z-index: 5;
+    }
+
+    .bread-top::before,
+    .bread-top::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #000;
+      border-radius: 50%;
+      top: 14px;
+      border: 3px solid var(--line);
+    }
+
+    .bread-top::before { left: 54px; }
+    .bread-top::after { right: 54px; }
+
+    .sesame {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #2d1d2b;
+      border-radius: 50%;
+      top: 26px;
+      z-index: 6;
+    }
+
+    .sesame.s1 { left: 70px; }
+    .sesame.s2 { left: 96px; }
+    .sesame.s3 { left: 122px; }
+    .sesame.s4 { left: 148px; }
+    .sesame.s5 { left: 174px; }
+
+    .face {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 4px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      z-index: 7;
+      top: 30px;
+    }
+
+    .face.left { left: 92px; }
+    .face.right { right: 92px; }
+
+    .smile {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 64px;
+      width: 56px;
+      height: 24px;
+      border: 4px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 32px 32px;
+      z-index: 7;
+      background: transparent;
+    }
+
+    .tomato {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 56px;
+      width: 150px;
+      height: 22px;
+      border-radius: 20px;
+      background: #d64739;
+      border: 4px solid var(--line);
+      z-index: 4;
+    }
+
+    .lettuce {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 62px;
+      width: 170px;
+      height: 18px;
+      border-radius: 20px;
+      background: #6c8f42;
+      border: 4px solid var(--line);
+      z-index: 4;
+    }
+
+    .cheese {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 84px;
+      width: 168px;
+      height: 18px;
+      border-radius: 12px;
+      background: #f4d25e;
+      border: 4px solid var(--line);
+      z-index: 4;
+    }
+
+    .meat {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 104px;
+      width: 178px;
+      height: 18px;
+      border-radius: 14px;
+      background: #7d3b2d;
+      border: 4px solid var(--line);
+      z-index: 4;
+    }
+
+    .shine {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 112px;
+      width: 90px;
+      height: 12px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 20px;
+      z-index: 5;
+    }
+
+    .badge {
+      display: inline-block;
+      margin: 8px auto 8px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 3px solid var(--line);
+      font-size: 0.76rem;
+      text-align: center;
+      display: block;
+      width: fit-content;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      line-height: 0.86;
+      letter-spacing: -0.07em;
+      color: var(--ink);
+      font-weight: 900;
+      text-transform: capitalize;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.02rem;
+      color: var(--ink);
+      margin-top: 18px;
+      line-height: 1.5;
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .cards {
+      margin-top: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.12);
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      min-height: 68px;
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 3px solid var(--line);
+      background: var(--calendar);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .item .text {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .item .text small {
+      display: block;
+      font-weight: 700;
+      opacity: 0.93;
+      font-size: 0.82em;
+      margin-top: 2px;
+    }
+
+    .countdown {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+
+    .time-box {
+      width: 74px;
+      min-height: 74px;
+      background: var(--brown);
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 6px;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.14);
+    }
+
+    .time-box strong {
+      display: block;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .time-box span {
+      display: block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .save-text {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .button-wrap {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 56px;
+      border-radius: 16px;
+      border: 3px solid var(--line);
+      background: linear-gradient(180deg, #d65d4f, var(--button));
+      color: white;
+      text-decoration: none;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.05rem, 2vw, 1.4rem);
+      box-shadow: 0 6px 0 rgba(54, 27, 35, 0.18);
+      transition: transform 0.15s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+    }
+
+    .cta.secondary {
+      background: linear-gradient(180deg, #f2f2f2, #e7e7e7);
+      color: var(--ink);
+      box-shadow: 0 6px 0 rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 430px) {
+      .container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .burger-wrap {
+        transform: scale(0.9);
+      }
+
+      .time-box {
+        width: 62px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="burger-wrap" aria-hidden="true">
+      <div class="bread-top"></div>
+      <div class="sesame s1"></div>
+      <div class="sesame s2"></div>
+      <div class="sesame s3"></div>
+      <div class="sesame s4"></div>
+      <div class="sesame s5"></div>
+      <div class="face left"></div>
+      <div class="face right"></div>
+      <div class="smile"></div>
+      <div class="burger"></div>
+      <div class="tomato"></div>
+      <div class="lettuce"></div>
+      <div class="cheese"></div>
+      <div class="meat"></div>
+      <div class="shine"></div>
+    </div>
+
+    <div class="badge">Sei invitato!</div>
+
+    <h1>Cocktail<br>Party</h1>
+
+    <div class="subtitle">
+      Una serata di cocktail, chiacchiere e amici.<br>
+      Non mancare!
+    </div>
+
+    <div class="cards">
+      <div class="item">
+        <div class="icon">📅</div>
+        <div class="text">
+          Sabato 21 novembre 2026
+          <small>Segnalo in agenda!</small>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="icon">⏰</div>
+        <div class="text">
+          Ore 18:00
+          <small>Brindisi, aperitivo e musica</small>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="icon">📍</div>
+        <div class="text">
+          Via A. Solari, 43 (MI)
+          <small>Citofonare “Franchi”</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="countdown">
+      <div class="time-box">
+        <strong id="days">00</strong>
+        <span>Giorni</span>
+      </div>
+      <div class="time-box">
+        <strong id="hours">00</strong>
+        <span>Ore</span>
+      </div>
+      <div class="time-box">
+        <strong id="minutes">00</strong>
+        <span>Min</span>
+      </div>
+      <div class="time-box">
+        <strong id="seconds">00</strong>
+        <span>Sec</span>
+      </div>
+    </div>
+
+    <div class="save-text">Salva nel tuo calendario</div>
+
+    <div class="button-wrap">
+      <a
+        class="cta"
+        href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cocktail%20Party%20-%20Compleanno%20%F0%9F%A5%82&dates=20261121T170000Z/20261121T220000Z&details=Sei%20invitato%2Fa%20a%20festeggiare%20con%20noi%20un%20aperitivo%20speciale%2C%20cocktail%20e%20una%20serata%20da%20festeggiare%20insieme!%20Ti%20aspettiamo%20per%20brindare%20insieme!%20%F0%9F%A5%82%20%F0%9F%8C%9F&location=Via%20A.%20Solari%2C%2043%2C%2020124%20Milano%20%28MI%29%20-%20Citofonare%20Franchi"
+      >
+        📅 Google Calendar
+      </a>
+
+      <a
+        class="cta secondary"
+        href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0D%0AVERSION:2.0%0D%0APRODID:-//Cocktail%20Party//IT%0D%0ACALSCALE:GREGORIAN%0D%0ABEGIN:VEVENT%0D%0AUID:cocktail-party-20261121@calendar.local%0D%0ADTSTAMP:20261110T000000Z%0D%0ADTSTART:20261121T170000Z%0D%0ADTEND:20261121T220000Z%0D%0ASUMMARY:Cocktail%20Party%20-%20Compleanno%20%F0%9F%A5%82%0D%0ADESCRIPTION:Sei%20invitato%2Fa%20a%20festeggiare%20con%20noi%20un%20aperitivo%20speciale%2C%20cocktail%20e%20una%20serata%20da%20festeggiare%20insieme!%20Ti%20aspettiamo%20per%20brindare%20insieme!%0D%0ALOCATION:Via%20A.%20Solari%2C%2043%2C%2020124%20Milano%20%28MI%29%20-%20Citofonare%20Franchi%0D%0AEND:VEVENT%0D%0AEND:VCALENDAR"
+        download="cocktail-party-compleanno.ics"
+      >
+        🗓️ Apple Calendar / iPhone
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const eventDate = new Date("2026-11-21T18:00:00+01:00");
+
+    function updateCountdown() {
+      const now = new Date();
+      let diff = eventDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      diff -= days * (1000 * 60 * 60 * 24);
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      diff -= hours * (1000 * 60 * 60);
+
+      const minutes = Math.floor(diff / (1000 * 60));
+      diff -= minutes * (1000 * 60);
+
+      const seconds = Math.floor(diff / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
